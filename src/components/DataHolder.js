@@ -95,17 +95,7 @@ const DataHolder = () => {
         'company': (state.s_company) ? state.s_company : "",
         'note' : (state.s_c_note) ? state.s_c_note : "",
       },
-      line_items: [
-        {
-          product_id: 93,
-          quantity: 2
-        },
-        {
-          product_id: 22,
-          variation_id: 23,
-          quantity: 1
-        }
-      ],
+      line_items: context.placeOrderItem,
       shipping_lines: [
         {
           method_id: "flat_rate",
@@ -114,52 +104,6 @@ const DataHolder = () => {
         }
       ]
     };
-
-    // const data = {
-    //   'payment_method': 'bacs',
-    //   'payment_method_title': 'Direct Bank Transfer',
-    //   'set_paid': (state.payment) ? state.payment : "",
-    //   'customer_id': (state.customerId) ? state.customerId : "",
-    //   'billing': {
-    //       'first_name': (state.b_f_name) ? state.b_f_name : "",
-    //       'last_name': (state.b_l_name) ? state.b_l_name : "",
-    //       'address_1': (state.b_a_l_1) ? state.b_a_l_1 : "",
-    //       'address_2': (state.b_a_l_2) ? state.b_a_l_2 : "",
-    //       'city': (state.b_city) ? state.b_city : "",
-    //       'state': (state.b_state) ? state.b_state : "",
-    //       'postcode': (state.b_post_code) ? state.b_post_code : "",
-    //       'country': (state.b_country) ? state.b_country : "",
-    //       'email': (state.b_email) ? state.b_email : "example@example.com",
-    //       'phone': (state.b_phone) ? state.b_phone : "",
-    //       'company': (state.b_company) ? state.b_company : "",
-
-    //   },
-    //   'shipping': {
-    //       'first_name': (state.s_f_name) ? state.s_f_name : "",
-    //       'last_name': (state.s_l_name) ? state.s_l_name : "",
-    //       'address_1': (state.s_a_l_1) ? state.s_a_l_1 : "",
-    //       'address_2': (state.s_a_l_2) ? state.s_a_l_2 : "",
-    //       'city': (state.s_city) ? state.s_city : "",
-    //       'state': (state.s_state) ? state.s_state : "",
-    //       'postcode': (state.s_post_code) ? state.s_post_code : "",
-    //       'country': (state.s_country) ? state.s_country : "",
-    //       'company': (state.s_company) ? state.s_company : "",
-    //   },
-    //   "line_items": [
-    //         {
-    //           product_id: 10285,
-    //           quantity: 2
-    //         },
-    //       ],
-
-    //   'shipping_lines': [
-    //       {
-    //           'method_id': 'flat_rate',
-    //           'method_title': 'Flat Rate',
-    //           'total': (state.shipping_charges) ? state.shipping_charges : ""
-    //       }
-    //   ]
-    // };
 
 
 

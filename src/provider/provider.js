@@ -13,6 +13,10 @@ function App(props) {
 
     const [orderByCustomer, setOrderByCustomer] = useState([]);
     const [productByCustomer, setProductByCustomer] = useState([]);
+    const [searchItem, setSearchItem] = useState([]);
+    const [placeOrderItem, setPlaceOrderItem] = useState([]);
+
+
 
 
     const [activePageOrder, setactivePageOrder] = useState(1);
@@ -69,10 +73,10 @@ function App(props) {
             setOrderByCustomer(JSON.parse(result.toJSON().body))
         });
 
-
         WooCommerce.getAsync('products').then(function (result) {
             setProductByCustomer(JSON.parse(result.toJSON().body))
         });
+       
         WooCommerceOld.getAsync('orders/count', function (result, error) {
             setTotalOrders(JSON.parse(error.toJSON().body).count)
         });
@@ -82,8 +86,6 @@ function App(props) {
 
         });
 
-
-
     }, []);
 
     let createOrder = (data) => {
@@ -92,6 +94,13 @@ function App(props) {
           });
           
 
+    }
+
+    let searchItemsFn=(e)=>{
+
+         WooCommerce.getAsync(`products?search=${e}`).then(function (result) {
+            setSearchItem(JSON.parse(result.toJSON().body))
+        });
     }
 
 
@@ -200,7 +209,6 @@ function App(props) {
     let searchCustomerById = (e) => {
         WooCommerce.getAsync(`customers/${e}`).then(function (result) {
             setCustomerById(JSON.parse(result.toJSON().body))
-            // setCustomerByIdFlag(true)
 
         });
     }
@@ -219,12 +227,16 @@ function App(props) {
                 customerById, setCustomerById,
                 totalProducts, setTotalProducts,
                 totalOrders, setTotalOrders,
+                searchItem, setSearchItem,
+                placeOrderItem, setPlaceOrderItem,
+
 
                 searchOrder,
                 searchCustomer,
                 searchProduct,
                 searchCustomerById,
                 createOrder,
+                searchItemsFn
 
 
 
