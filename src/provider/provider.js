@@ -14,6 +14,7 @@ function App(props) {
     const [orderByCustomer, setOrderByCustomer] = useState([]);
     const [productByCustomer, setProductByCustomer] = useState([]);
 
+
     const [activePageOrder, setactivePageOrder] = useState(1);
     const [activePageProduct, setactivePageProduct] = useState(1);
 
@@ -55,7 +56,7 @@ function App(props) {
 
 
         var WooCommerceOld = new WooCommerceAPI({
-            url: 'https://capinfostaging.wpengine.com/',
+            url: 'https://cors-anywhere.herokuapp.com/https://capinfostaging.wpengine.com/',
             consumerKey: 'ck_6ddb1708df95f8007518d2a08e5dcef14fc7e2e2',
             consumerSecret: 'cs_9297a433ce9039451dfd3417bd0c70c5c4770e96',
             version: 'v3',
@@ -72,24 +73,28 @@ function App(props) {
         WooCommerce.getAsync('products').then(function (result) {
             setProductByCustomer(JSON.parse(result.toJSON().body))
         });
-        WooCommerceOld.getAsync('orders/count', function (result , error) {
-            // console.log(JSON.parse(error.toJSON().body));
-            // setTotalOrders(JSON.parse(error.toJSON().body).count)
-            console.log(result , error)
+        WooCommerceOld.getAsync('orders/count', function (result, error) {
+            setTotalOrders(JSON.parse(error.toJSON().body).count)
         });
 
-        WooCommerceOld.getAsync('products/count', function (result , error) {
-            // console.log(JSON.parse(error.toJSON().body));
-            // setTotalProducts(JSON.parse(error.toJSON().body).count)
-            console.log(result , error)
+        WooCommerceOld.getAsync('products/count', function (result, error) {
+            setTotalProducts(JSON.parse(error.toJSON().body).count)
 
         });
 
-      
+
 
     }, []);
 
-    
+    let createOrder = (data) => {
+        WooCommerce.postAsync('orders' , data  ).then(function(result) {
+            console.log(JSON.parse(result.toJSON().body))
+          });
+          
+
+    }
+
+
     let searchCustomer = (e) => {
 
         WooCommerce.getAsync(`customers?search=${e}`).then(function (result) {
@@ -131,7 +136,7 @@ function App(props) {
                 });
                 WooCommerce.getAsync(`customers/${customerKey}`).then(function (result) {
                     setTotalOrders(JSON.parse(result.toJSON().body).orders_count)
-        
+
                 });
             }
             else {
@@ -144,7 +149,7 @@ function App(props) {
                 WooCommerce.getAsync(`customers/${customerKey}`).then(function (result) {
                     setTotalOrders(JSON.parse(result.toJSON().body).orders_count)
 
-        
+
                 });
             }
 
@@ -219,6 +224,7 @@ function App(props) {
                 searchCustomer,
                 searchProduct,
                 searchCustomerById,
+                createOrder,
 
 
 

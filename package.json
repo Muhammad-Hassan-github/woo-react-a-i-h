@@ -31,7 +31,7 @@
       "react-app/jest"
     ]
   },
-  "homepage": "https://shopifydevelopmentservice.com/react/",
+  
   "browserslist": {
     "production": [
       ">0.2%",
