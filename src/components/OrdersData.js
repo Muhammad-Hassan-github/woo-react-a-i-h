@@ -4,12 +4,14 @@ import React, {
   useContext,
   useState,
   useEffect,
+  
 } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import MyContext from "../contextApi/context";
 import Pagination from "react-js-pagination";
 // require("bootstrap/less/bootstrap.less");
+import {Link} from 'react-router-dom';
 
 
 const OrdersData = () => {
@@ -108,7 +110,7 @@ const OrdersData = () => {
 
                     return (
                       <tr>
-                        <th scope="row"><a href="#">{`#${element.id} ${element.billing.first_name} ${element.billing.last_name}`}</a></th>
+                        <th scope="row"><Link to={`/react/?orderId=${element.id}`}  >{`#${element.id} ${element.billing.first_name} ${element.billing.last_name}`}</Link></th>
                         <td>{element.billing.company}</td>
                         <td>{element.date_created}</td>
                         <td>{element.status}</td>

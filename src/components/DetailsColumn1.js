@@ -16,374 +16,481 @@ const OrderDetail1 = (props) => {
   const [searchValue, setSearchValue] = useState('');
   const [customerKey, setCustomerKey] = useState(null);
 
+  const [state, setState] = useState({
+
+    email: "",
+    first_name: "",
+    last_name: '',
+    username: "",
+    status:"",
+    b_first_name: "",
+    b_last_name: "",
+    b_company: "",
+    b_address_1: "",
+    b_address_2: "",
+    b_city: "",
+    b_state: "",
+    b_postcode: "",
+    b_country: "",
+    b_email: "",
+    b_phone: "",
+    s_first_name: "",
+    s_last_name: "",
+    s_company: "",
+    s_address_1: "",
+    s_address_2: "",
+    s_city: "",
+    s_state: "",
+    s_postcode: "",
+    s_country: "",
+    
+
+  });
+
+  let createUser = () => {
+
+    const data = {
+
+      email: state.email,
+      status:state.status,
+      first_name: state.first_name,
+      last_name: state.last_name,
+      username: state.username,
+      billing: {
+        first_name: state.b_first_name,
+        last_name: state.b_last_name,
+        company: state.b_company,
+        address_1: state.b_address_1,
+        address_2: state.b_address_2,
+        city: state.b_city,
+        state: state.b_state,
+        postcode: state.b_postcode,
+        country: state.b_country,
+        email: state.email,
+        phone: state.b_phone,
+      },
+      shipping: {
+        first_name: state.s_first_name,
+        last_name: state.s_last_name,
+        company: state.s_company,
+        address_1: state.s_address_1,
+        address_2: state.s_address_2,
+        city: state.s_city,
+        state: state.s_state,
+        postcode: state.s_postcode,
+        country: state.s_country,
+      }
+    };
+
+                console.log(data)
+    context.createUserFn(data)
+
+  }
+
+  let handleChange = (name, e) => {
+    setState({ ...state, [name]: e.target.value })
+  };
+
   return (
     <MyContext.Consumer>
-    {(context) => {
-      return (
-        <div>
-      <p
-        style={{
-          fontSize: "14px",
-          fontWeight: "bold",
-          color: "#444",
-        }}
-      >
-        General
+      {(context) => {
+        return (
+          <div>
+            {console.log(state)}
+            <p
+              style={{
+                fontSize: "14px",
+                fontWeight: "bold",
+                color: "#444",
+              }}
+            >
+              General
+              
       </p>
-      {/* date */}
+            {/* date */}
 
-      <label className="text-sizing-management" for="order_date">
-        Date created:
+            <label className="text-sizing-management" for="order_date">
+              Date created:
       </label>
-      <input
-        style={{
-          height: "35px",
-          width: "160px",
-          border: "1px solid",
-        }}
-        type="text"
-        class="form-control"
-      />
+            <input
+              style={{
+                height: "35px",
+                width: "160px",
+                border: "1px solid",
+              }}
+              type="text"
+              class="form-control"
+            />
 
-      {/* Pyment drop-down */}
+            {/* Pyment drop-down */}
 
-      <div class="form-group">
-        <label className="text-sizing-management" for="order_status">
-          Status:
+            <div class="form-group">
+              <label className="text-sizing-management" for="order_status">
+                Status:
           <a href="#">&nbsp;Customer payment page →</a>{" "}
+              </label>
+              <select
+                style={{
+                  height: "35px",
+                  width: "160px",
+                  fontSize: "14px",
+                  border: "1px solid",
+                }}
+                class="form-control"
+                onChange={(e) => { props.propsData.handleChange("status", e) }}
+              >
+                <option selected value="pending" >panding payment</option>
+                <option value="refunded" >Partial Paid</option>
+                <option value="processing"  >processing</option>
+                <option value="on-hold"  >on hold</option>
+                <option value="completed"  >completed</option>
+                <option value="cancelled"  >canceled</option>
+              </select>
+            </div>
+            {/* order details */}
+            <b className="text-sizing-management">Order Totals</b>
+            <p>
+              <label className="text-sizing-management" for="order_date">
+                New Total
         </label>
-        <select
-          style={{
-            height: "35px",
-            width: "160px",
-            fontSize: "14px",
-            border: "1px solid",
-          }}
-          class="form-control"
-          onChange={(e) => { props.propsData.handleChange("status", e) }}
-        >
-          <option selected value="pending" >panding payment</option>
-          <option value="refunded" >Partial Paid</option>
-          <option value="processing"  >processing</option>
-          <option value="on-hold"  >on hold</option>
-          <option value="completed"  >completed</option>
-          <option value="cancelled"  >canceled</option>
-        </select>
-      </div>
-      {/* order details */}
-      <b className="text-sizing-management">Order Totals</b>
-      <p>
-        <label className="text-sizing-management" for="order_date">
-          New Total
-        </label>
-        <input
-          style={{
-            height: "35px",
-            width: "160px",
-            border: "1px solid",
-          }}
-          type="text"
-          class="form-control"
-        />
-      </p>
+              <input
+                style={{
+                  height: "35px",
+                  width: "160px",
+                  border: "1px solid",
+                }}
+                type="text"
+                class="form-control"
+              />
+            </p>
 
-      <label className="text-sizing-management" for="order_date">
-        New Total Tax
+            <label className="text-sizing-management" for="order_date">
+              New Total Tax
       </label>
-      <input
-        style={{
-          height: "35px",
-          width: "160px",
-          border: "1px solid",
-        }}
-        type="text"
-        class="form-control"
-      />
+            <input
+              style={{
+                height: "35px",
+                width: "160px",
+                border: "1px solid",
+              }}
+              type="text"
+              class="form-control"
+            />
 
-      <label className="text-sizing-management" for="order_date">
-        New Total Shipping
+            <label className="text-sizing-management" for="order_date">
+              New Total Shipping
       </label>
-      <input
-        style={{
-          height: "35px",
-          width: "160px",
-          border: "1px solid",
-        }}
-        type="text"
-        class="form-control"
-      />
+            <input
+              style={{
+                height: "35px",
+                width: "160px",
+                border: "1px solid",
+              }}
+              type="text"
+              class="form-control"
+            />
 
-      {/* Customer dropdown */}
+            {/* Customer dropdown */}
 
-      <div class="form-group">
-        <label className="text-sizing-management" for="order_status">
-          Customer
+            <div class="form-group">
+              <label className="text-sizing-management" for="order_status">
+                Customer
         </label>
 
-        <Autocomplete
-          id="combo-box-demo"
-          options={
+              <Autocomplete
+                id="combo-box-demo"
+                options={
 
-            context.customerdetail && Object.entries(context.customerdetail).map((element, index) => {
-              return (
-                element[1]
-              )
+                  context.customerdetail && Object.entries(context.customerdetail).map((element, index) => {
+                    return (
+                      element[1]
+                    )
 
-            })
-          }
-          getOptionLabel={(option) => option.objValue}
-          style={{ width: "120%" }}
-          renderInput={(params) => {
+                  })
+                }
+                getOptionLabel={(option) => option.objValue}
+                style={{ width: "120%" }}
+                renderInput={(params) => {
 
 
-            if (params.inputProps.value) {
+                  if (params.inputProps.value) {
 
-              if (params.inputProps.value !== searchValue || flag2) {
-                context.searchCustomer(params.inputProps.value);
-                setSearchValue(params.inputProps.value)
-                setFlag2(false)
-              }
+                    if (params.inputProps.value !== searchValue || flag2) {
+                      context.searchCustomer(params.inputProps.value);
+                      setSearchValue(params.inputProps.value)
+                      setFlag2(false)
+                    }
 
-            }
+                  }
 
-            return <TextField {...params} label="Customer" variant="outlined" />
-          }}
+                  return <TextField {...params} label="Customer" variant="outlined" />
+                }}
 
-          onChange={(event, newValue) => {
+                onChange={(event, newValue) => {
 
-            if (newValue) {
-              setCustomerKey(newValue.objKey)
-              context.searchCustomerById(newValue.objKey)
-            }
+                  if (newValue) {
+                    setCustomerKey(newValue.objKey)
+                    context.setSelectCustomerId(newValue.objKey)
+                    context.searchCustomerById(newValue.objKey)
+                  }
 
-          }}
-        />
-      </div>
-      {/* Create user info */}
-      <button
-        class="btn btn-outline-primary"
-        type="button"
-        style={{ border: "2px solid", fontWeight: "450" }}
-        data-toggle="collapse"
-        data-target="#collapseExample"
-        aria-expanded="false"
-        aria-controls="collapseExample"
-      >
-        Create User
+                }}
+              />
+            </div>
+            {/* Create user info */}
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              style={{ border: "2px solid", fontWeight: "450" }}
+              data-toggle="collapse"
+              data-target="#collapseExample"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >
+              Create User
       </button>
 
-      {/* Starting Show hide form  */}
-      <div class="collapse" id="collapseExample">
-        <div className="pt-2">
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="First Name"
-          />
-        </div>
-        <div className="pt-2">
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="Last Name"
-          />
-        </div>
-        <div className="pt-2">
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="Email"
-          />
-        </div>
-        <div className="pt-2">
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="Phone"
-          />
-        </div>
-        {/* User Shipping info  */}
-        <p className="pt-2" style={{ fontSize: "13px" }}>
-          Customer billing address
+            {/* Starting Show hide form  */}
+            <div class="collapse" id="collapseExample">
+              <div className="pt-2">
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="First Name"
+                  onChange={(e) => { handleChange("first_name", e) }}
+                />
+              </div>
+              <div className="pt-2">
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="Last Name"
+                  onChange={(e) => { handleChange("last_name", e) }}
+                />
+              </div>
+              <div className="pt-2">
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="Email"
+                  onChange={(e) => { handleChange("email", e) }}
+
+                />
+              </div>
+              <div className="pt-2">
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="Phone"
+                  onChange={(e) => { handleChange("phone", e) }}
+
+                />
+              </div>
+              {/* User Shipping info  */}
+              <p className="pt-2" style={{ fontSize: "13px" }}>
+                Customer billing address
           {/* <a href="#" style={{fontSize:"10px"}}>copy shipping address</a>
            */}
-        </p>
-        <div>
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="Adress 1"
-          />
-        </div>
-        <div className="pt-2">
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="Adress 2"
-          />
-        </div>
-        <div className="pt-2">
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="City"
-          />
-        </div>
-        <div className="pt-2">
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="State"
-          />
-        </div>
-        <div className="pt-2">
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="Zip Code"
-          />
-        </div>
-        {/* Customer Shipping Adress */}
-        <p className="pt-2" style={{ fontSize: "12px" }}>
-          Customer Shipping address
+              </p>
+              <div>
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="Adress 1"
+                  onChange={(e) => { handleChange("b_address_1", e) }}
+
+                />
+              </div>
+              <div className="pt-2">
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="Adress 2"
+                  onChange={(e) => { handleChange("b_address_2", e) }}
+                />
+              </div>
+              <div className="pt-2">
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="City"
+                  onChange={(e) => { handleChange("b_city", e) }}
+
+                />
+              </div>
+              <div className="pt-2">
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="State"
+                  onChange={(e) => { handleChange("b_state", e) }}
+
+                />
+              </div>
+              <div className="pt-2">
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="Zip Code"
+                  onChange={(e) => { handleChange("b_zipcode", e) }}
+
+                />
+              </div>
+              {/* Customer Shipping Adress */}
+              <p className="pt-2" style={{ fontSize: "12px" }}>
+                Customer Shipping address
           {/* <a href="#" style={{fontSize:"10px"}}>copy shipping address</a>
            */}
-        </p>
-        <div>
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="Adress 1"
-          />
-        </div>
-        <div className="pt-2">
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="Adress 2"
-          />
-        </div>
-        <div className="pt-2">
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="City"
-          />
-        </div>
-        <div className="pt-2">
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="State"
-          />
-        </div>
-        <div className="pt-2">
-          <input
-            style={{
-              height: "35px",
-              width: "200px",
-              border: "1px solid",
-            }}
-            type="text"
-            class="form-control"
-            placeholder="Zip Code"
-          />
-        </div>
-      </div>
-      {/* End Show Hide Form  */}
+              </p>
+              <div>
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="Adress 1"
+                  onChange={(e) => { handleChange("s_zipcode", e) }}
 
-      {/* =============================================================================== */}
+                />
+              </div>
+              <div className="pt-2">
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="Adress 2"
+                  onChange={(e) => { handleChange("s_address_2", e) }}
 
-      {/* Select Payment Status */}
-      <div class="form-group">
-        <label className="text-sizing-management" for="order_status">
-          Select Your Payment Status
+                />
+              </div>
+              <div className="pt-2">
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="City"
+                  onChange={(e) => { handleChange("s_city", e) }}
+
+                />
+              </div>
+              <div className="pt-2">
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="State"
+                  onChange={(e) => { handleChange("s_state", e) }}
+
+                />
+              </div>
+              <div className="pt-2">
+                <input
+                  style={{
+                    height: "35px",
+                    width: "200px",
+                    border: "1px solid",
+                  }}
+                  type="text"
+                  class="form-control"
+                  placeholder="Zip Code"
+                  onChange={(e) => { handleChange("s_ zipdcode", e) }}
+
+                />
+              </div>
+            </div>
+            {/* End Show Hide Form  */}
+
+            {/* =============================================================================== */}
+
+            {/* Select Payment Status */}
+            <div class="form-group">
+              <label className="text-sizing-management" for="order_status">
+                Select Your Payment Status
         </label>
-        <select
-          style={{
-            height: "35px",
-            width: "200px",
-            fontSize: "14px",
-            border: "1px solid",
-          }}
-          class="form-control"
-        >
-          <option selected>panding payment</option>
-          <option>Partial Paid</option>
-          <option>Paid</option>
-          <option>Refund</option>
-        </select>
-      </div>
-    </div>
-     )
-    }}
+              <select
+                style={{
+                  height: "35px",
+                  width: "200px",
+                  fontSize: "14px",
+                  border: "1px solid",
+                }}
+                class="form-control"
+                onChange={(e) => { handleChange("status", e) }}
+                defaultValue="pending"
 
-  </MyContext.Consumer >
+              >
+                <option value="pending">panding payment</option>
+                <option value="processing">Partial Paid</option>
+                <option value="completed" >Paid</option>
+                <option value="refunded" >Refund</option>
+              </select>
+              <br/><button className='btn btn-primary' onClick={createUser}>Create User</button>
+            </div>
+          </div>
+        )
+      }}
+
+    </MyContext.Consumer >
   );
 };
 

@@ -16,6 +16,8 @@ function App(props) {
     const [searchItem, setSearchItem] = useState([]);
     const [placeOrderItem, setPlaceOrderItem] = useState([]);
 
+    const [selectCustomerId, setSelectCustomerId] = useState()
+
 
 
 
@@ -71,6 +73,7 @@ function App(props) {
 
         WooCommerce.getAsync('orders').then(function (result) {
             setOrderByCustomer(JSON.parse(result.toJSON().body))
+            console.log(JSON.parse(result.toJSON().body))
         });
 
         WooCommerce.getAsync('products').then(function (result) {
@@ -88,11 +91,20 @@ function App(props) {
 
     }, []);
 
-    let createOrder = (data) => {
-        WooCommerce.postAsync('orders' , data  ).then(function(result) {
+    let updateOrder = (orderId , data) => {
+        WooCommerce.putAsync(`orders/${orderId}` , data  ).then(function(result) {
             console.log(JSON.parse(result.toJSON().body))
-          });
-          
+          });    
+    }
+    let createOrder = (data) => {
+        WooCommerce.postAsync(`orders` , data  ).then(function(result) {
+            console.log(JSON.parse(result.toJSON().body))
+          });    
+    }
+    let createUserFn = (data)=>{
+        WooCommerce.postAsync(`customers` , data  ).then(function(result) {
+            console.log(JSON.parse(result.toJSON().body))
+          });  
 
     }
 
@@ -229,14 +241,18 @@ function App(props) {
                 totalOrders, setTotalOrders,
                 searchItem, setSearchItem,
                 placeOrderItem, setPlaceOrderItem,
+                selectCustomerId, setSelectCustomerId,
+
 
 
                 searchOrder,
                 searchCustomer,
                 searchProduct,
                 searchCustomerById,
+                searchItemsFn,
+                updateOrder,
                 createOrder,
-                searchItemsFn
+                createUserFn,
 
 
 

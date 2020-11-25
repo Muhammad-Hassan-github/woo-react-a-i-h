@@ -13,15 +13,24 @@ const AddItems = () => {
   const [productName, setName] = useState();
   const [productQnt, setQnt] = useState();
   const [searchValue, setSearchValue] = useState('');
+  const [itemDetails, setItemDetails] = useState({});
+
 
 
   const AddProduct = (event) => {
     event.preventDefault();
     let obj = { 
       product_id:productID,
-       quantity:productQnt 
+       quantity:productQnt,
+       itemDetails,
+        
       };
-    context.setPlaceOrderItem([...context.placeOrderItem ,obj])
+      if(obj.product_id && obj.quantity){
+
+        context.setPlaceOrderItem([...context.placeOrderItem ,obj])
+      }
+    setQnt('')
+    document.getElementById('combo-box-demo').innerText=""
   }
 
   return (
@@ -37,7 +46,7 @@ const AddItems = () => {
               <div className="p-3">
                 <button
                   type="button"
-                  class="btn btn-primary"
+                  className="btn btn-primary"
                   data-toggle="collapse"
                   data-target="#collapseExample-additem"
                   aria-expanded="false"
@@ -46,7 +55,7 @@ const AddItems = () => {
                   Add Item(s)
           </button>
 
-                <div class="collapse pt-3" id="collapseExample-additem">
+                <div className="collapse pt-3" id="collapseExample-additem">
                   <span>
                     <button
                       type="button"
@@ -54,36 +63,37 @@ const AddItems = () => {
                       data-target="#collapseExample-addproduct"
                       aria-expanded="false"
                       aria-controls="collapseExample-addproduct"
-                      class="btn btn-outline-secondary"
+                      className="btn btn-outline-secondary"
                     >
                       Add Products
               </button>
                   </span>
                   <span className="pl-2">
-                    <button type="button" class="btn btn-outline-secondary">
+                    <button type="button" className="btn btn-outline-secondary">
                       Add Fee
               </button>
                   </span>
                   <span className="pl-2">
                     {" "}
-                    <button type="button" class="btn btn-outline-secondary">
+                    <button type="button" className="btn btn-outline-secondary">
                       Add Shipping
               </button>
                   </span>
                 </div>
                 {/* product table */}
-                <div class="collapse pt-3" id="collapseExample-addproduct">
+                <div className="collapse pt-3" id="collapseExample-addproduct">
                   {/* <form> */}
-                  <div class="form-row">
-                    <div class="form-group col-md-5">
+                  <div className="form-row">
+                    <div className="form-group col-md-5">
                       
 
                       <Autocomplete
-                        id="combo-box-demo"
+                      
+                        
                         options={
 
                           context.searchItem && Object.entries(context.searchItem).map((element, index) => {
-                            console.log(element[1].name)
+                            
                             return (
                               element[1]
                             )
@@ -112,26 +122,30 @@ const AddItems = () => {
 
                         onChange={(event, value) => {
 
-                          setID(value.id);
-                          setName(value.name)
+                      if(value){
+                        setID(value.id);
+                        setName(value.name)
+                        setItemDetails(value)
+                      }
 
                         }}
                       />
 
                     </div>
                     {/* QTY */}
-                    <div class="form-group col-md-2 pt-1">
+                    <div className="form-group col-md-2 pt-1">
                       <input
                         type="number"
                         style={{ width: "50%", height: "50px" }}
                         placeholder=" QTY"
                         min="1"
                         onChange={(e) => setQnt(e.target.value)}
+                        value={productQnt}
                       />
                     </div>
 
-                    <div class="form-group col-md-5 pl-2 pt-2">
-                      <button type="button" class="btn btn-primary" onClick={AddProduct}>
+                    <div className="form-group col-md-5 pl-2 pt-2">
+                      <button type="button" className="btn btn-primary" onClick={AddProduct}>
                         Add Item
                   </button>
                     </div>
@@ -141,7 +155,7 @@ const AddItems = () => {
                   {/* Products Table List  */}
 
                   <div style={{ overflowX: "auto" }}>
-                    <table class="table">
+                    <table className="table">
                       <thead>
                         <tr>
                           <th scope="col">Id</th>
@@ -183,10 +197,16 @@ const AddItems = () => {
                               </td>
 
                               <td colSpan="5">
-                                {item.productName}
+                                {item.itemDetails.name
+                                
+                                }
+                                <br/>
+                                {item.itemDetails.sku
+                                
+                              }
                               </td>
                               <td>$25.00</td>
-                              <td>{item.productQnt}</td>
+                              <td>{item.quantity}</td>
 
                               <td>
                                 <a
@@ -219,57 +239,57 @@ const AddItems = () => {
               </div>
               {/* popup  shipping info */}
               <div
-                class="modal fade"
+                className="modal fade"
                 id="shippingTable"
-                tabindex="-1"
+                tabIndex="-1"
                 role="dialog"
                 aria-labelledby="shippingTableLabel"
                 aria-hidden="true"
               >
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="shippingTableLabel">
+                <div className="modal-dialog" role="document">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="shippingTableLabel">
                         Shipping Details
                 </h5>
                       <button
                         type="button"
-                        class="close"
+                        className="close"
                         data-dismiss="modal"
                         aria-label="Close"
                       >
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                    <div class="modal-body">
+                    <div className="modal-body">
                       {/* shipping form start */}
                       <form>
-                        <div class="form-row">
-                          <div class="form-group col-md-8">
-                            <label for="inputCity">Title</label>
+                        <div className="form-row">
+                          <div className="form-group col-md-8">
+                            <label >Title</label>
                             <p>name of the product</p>
                           </div>
-                          <div class="form-group col-md-2">
-                            <label for="inputCity">Quantity</label>
+                          <div className="form-group col-md-2">
+                            <label >Quantity</label>
                             <input type="number" style={{ width: "70%" }} disabled />
                           </div>
-                          <div class="form-group col-md-2">
-                            <label for="inputCity">Shipped</label>
+                          <div className="form-group col-md-2">
+                            <label >Shipped</label>
                             <input type="number" style={{ width: "70%" }} />
                           </div>
                         </div>
                       </form>
                       {/* Shipping Form end */}
                     </div>
-                    <div class="modal-footer">
+                    <div className="modal-footer">
                       <button
                         type="button"
-                        class="btn btn-primary"
+                        className="btn btn-primary"
                         data-dismiss="modal"
                       >
                         Mark as Shipped
                 </button>
-                      <button type="button" class="btn btn-primary">
+                      <button type="button" className="btn btn-primary">
                         Unset shipped
                 </button>
                     </div>

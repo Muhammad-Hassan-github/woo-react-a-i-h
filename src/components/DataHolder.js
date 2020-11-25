@@ -14,7 +14,8 @@ import MyContext from "../contextApi/context";
 import AddItems from '../components/AddItems'
 
 
-const DataHolder = () => {
+
+const DataHolder = (props) => {
 
   const context = useContext(MyContext);
   const [state, setState] = useState({
@@ -69,6 +70,56 @@ const DataHolder = () => {
       payment_method_title: "Direct Bank Transfer",
       set_paid: true,
       status:state.status,
+      customer_id:context.selectCustomerId,
+      billing: {
+        'first_name': (state.b_f_name) ? state.b_f_name : "",
+        'last_name': (state.b_l_name) ? state.b_l_name : "",
+        'address_1': (state.b_a_l_1) ? state.b_a_l_1 : "",
+        'address_2': (state.b_a_l_2) ? state.b_a_l_2 : "",
+        'city': (state.b_city) ? state.b_city : "",
+        'state': (state.b_state) ? state.b_state : "",
+        'postcode': (state.b_post_code) ? state.b_post_code : "",
+        'country': (state.b_country) ? state.b_country : "",
+        'email': (state.b_email) ? state.b_email : "example@example.com",
+        'phone': (state.b_phone) ? state.b_phone : "",
+        'company': (state.b_company) ? state.b_company : "",
+        'transaction_id':(state.transaction_id) ? state.transaction_id : "",
+      },
+      shipping: {
+        'first_name': (state.s_f_name) ? state.s_f_name : "",
+        'last_name': (state.s_l_name) ? state.s_l_name : "",
+        'address_1': (state.s_a_l_1) ? state.s_a_l_1 : "",
+        'address_2': (state.s_a_l_2) ? state.s_a_l_2 : "",
+        'city': (state.s_city) ? state.s_city : "",
+        'state': (state.s_state) ? state.s_state : "",
+        'postcode': (state.s_post_code) ? state.s_post_code : "",
+        'country': (state.s_country) ? state.s_country : "",
+        'company': (state.s_company) ? state.s_company : "",
+        'note' : (state.s_c_note) ? state.s_c_note : "",
+      },
+      line_items: context.placeOrderItem,
+      shipping_lines: [
+        {
+          method_id: "flat_rate",
+          method_title: "Flat Rate",
+          total: "10.00"
+        }
+      ]
+    };
+
+    context.createOrder( data)
+
+
+  }
+
+  let callUpdateOrder = () => {
+
+    const data = {
+      payment_method: "bacs",
+      payment_method_title: "Direct Bank Transfer",
+      set_paid: true,
+      status:state.status,
+      customer_id:context.selectCustomerId,
       billing: {
         'first_name': (state.b_f_name) ? state.b_f_name : "",
         'last_name': (state.b_l_name) ? state.b_l_name : "",
@@ -108,18 +159,20 @@ const DataHolder = () => {
 
 
 
-    context.createOrder(data)
+    context.updateOrder(  props.orderId , data)
+    
+
 
   }
 
 
-
-
   return (
     <>
-      {console.log(state)}
+      {console.log(context.selectCustomerId)}
       <main className="dash-content">
-        <button onClick={callCreateOrder}> create order </button>
+        <button className='btn btn-secondary' onClick={callCreateOrder}> create order </button>
+        <button className='btn btn-secondary m-2' onClick={callUpdateOrder}> Update order </button>
+
 
         <div className="container-fluid">
           {/* Order Details first table */}
