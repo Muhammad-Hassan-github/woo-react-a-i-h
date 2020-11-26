@@ -62,7 +62,10 @@ const DataHolder = (props) => {
   let handleChange = (name, e) => {
     setState({ ...state, [name]: e.target.value })
   };
+  useEffect(() => {    
+    context.getOrderByIdFn(props.orderId)
 
+  }, []);
   let callCreateOrder = () => {
 
     const data = {

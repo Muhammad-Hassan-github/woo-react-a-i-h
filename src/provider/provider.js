@@ -213,9 +213,6 @@ function App(props) {
 
             });
         }
-
-
-
     }
 
     let searchCustomerById = (e) => {
@@ -223,6 +220,13 @@ function App(props) {
             setCustomerById(JSON.parse(result.toJSON().body))
 
         });
+    }
+
+    let getOrderByIdFn =(orderId)=>{
+        WooCommerce.getAsync(`orders/${orderId}`).then(function(result) {
+            setCustomerById(JSON.parse(result.toJSON().body))
+            console.log(JSON.parse(result.toJSON().body))
+          }); 
     }
 
 
@@ -253,6 +257,7 @@ function App(props) {
                 updateOrder,
                 createOrder,
                 createUserFn,
+                getOrderByIdFn
 
 
 
