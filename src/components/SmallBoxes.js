@@ -5,11 +5,11 @@ import CustomersBox from "./CustomersBox";
 import CustomTaxBox from "./CustomTaxBox";
 import EmailBox from "./EmailBox";
 
-const SmallBoxes = () => {
+const SmallBoxes = ({propsData}) => {
   return (
     <div>
       <div className="col-xl-12">
-        <ActionBox />
+        <ActionBox  propsData ={propsData} />
       </div>
       {/* secon table box */}
       <div className="col-xl-12">

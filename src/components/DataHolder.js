@@ -11,11 +11,12 @@ import DetailsColumn1 from "./DetailsColumn1";
 import DetailsColumn2 from "./DetailsColumn2";
 import DetailsColumn3 from "./DetailsColumn3";
 import MyContext from "../contextApi/context";
-import AddItems from '../components/AddItems'
+import AddItems from '../components/AddItems';
+import TotalBill from '../components/TotalBill.js'
 
 
 
-const DataHolder = (props) => {
+const DataHolder = ({orderId}) => {
 
   const context = useContext(MyContext);
   const [state, setState] = useState({
@@ -60,12 +61,20 @@ const DataHolder = (props) => {
 
   });
   let handleChange = (name, e) => {
-    setState({ ...state, [name]: e.target.value })
+    setState({ ...state, [name]: e })
   };
-  useEffect(() => {    
-    context.getOrderByIdFn(props.orderId)
+  useEffect(() => { 
+    if(orderId){
+      context.getOrderByIdFn(orderId)
+      alert("oasdf")
+    }
+    // else{
+    //   context.setautocompleValueInEditPage([])
+    //   context.setCustomerById([])
+    // }
 
   }, []);
+console.log("state" , state)
   let callCreateOrder = () => {
 
     const data = {
@@ -159,13 +168,8 @@ const DataHolder = (props) => {
       ]
     };
 
-
-
-
-    context.updateOrder(  props.orderId , data)
+    context.updateOrder(  orderId , data)
     
-
-
   }
 
 
@@ -173,10 +177,7 @@ const DataHolder = (props) => {
     <>
       {console.log(context.selectCustomerId)}
       <main className="dash-content">
-        <button className='btn btn-secondary' onClick={callCreateOrder}> create order </button>
-        <button className='btn btn-secondary m-2' onClick={callUpdateOrder}> Update order </button>
-
-
+       
         <div className="container-fluid">
           {/* Order Details first table */}
           <div className="row">
@@ -220,10 +221,11 @@ const DataHolder = (props) => {
                 </div>
               </div>
               <AddItems/>
+              <TotalBill orderID={orderId}/>
             </div>
             {/* Small Right Side Boxes */}
             <div className="col-xl-3">
-              <SmallBoxes />
+              <SmallBoxes propsData ={{callCreateOrder , callUpdateOrder , orderId}} />
             </div>
           </div>
         </div>

@@ -8,6 +8,8 @@ import React, {
 import MyContext from "../contextApi/context";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import moment from "moment";
+
 
 const OrderDetail1 = (props) => {
 
@@ -15,6 +17,10 @@ const OrderDetail1 = (props) => {
   const [flag2, setFlag2] = useState(true);
   const [searchValue, setSearchValue] = useState('');
   const [customerKey, setCustomerKey] = useState(null);
+  const options = ['Option 1', 'Option 2'];
+
+  const [value, setValue] = React.useState("hhh");
+  const [inputValue, setInputValue] = React.useState('');
 
   const [state, setState] = useState({
 
@@ -82,7 +88,7 @@ const OrderDetail1 = (props) => {
       }
     };
 
-                console.log(data)
+     
     context.createUserFn(data)
 
   }
@@ -120,6 +126,7 @@ const OrderDetail1 = (props) => {
               }}
               type="text"
               class="form-control"
+              value={moment(context.customerById.date_created).format('lll')} 
             />
 
             {/* Pyment drop-down */}
@@ -198,21 +205,20 @@ const OrderDetail1 = (props) => {
         </label>
 
               <Autocomplete
-                id="combo-box-demo"
+               id="controllable-states-demo"
+                value={context.autocompleValueInEditPage ? `${context.autocompleValueInEditPage.first_name} ${context.autocompleValueInEditPage.last_name} (#${context.autocompleValueInEditPage.username} - ${context.autocompleValueInEditPage.email}) `  : ""}
+     
                 options={
-
                   context.customerdetail && Object.entries(context.customerdetail).map((element, index) => {
                     return (
-                      element[1]
+                      element[1].objValue
                     )
 
                   })
                 }
-                getOptionLabel={(option) => option.objValue}
+             
                 style={{ width: "120%" }}
                 renderInput={(params) => {
-
-
                   if (params.inputProps.value) {
 
                     if (params.inputProps.value !== searchValue || flag2) {
@@ -222,8 +228,7 @@ const OrderDetail1 = (props) => {
                     }
 
                   }
-
-                  return <TextField {...params} label="Customer" variant="outlined" />
+                  return <TextField {...params} label="Customer" defaultValue="The Godfather"  variant="outlined" />
                 }}
 
                 onChange={(event, newValue) => {
@@ -236,6 +241,7 @@ const OrderDetail1 = (props) => {
 
                 }}
               />
+           
             </div>
             {/* Create user info */}
             <button

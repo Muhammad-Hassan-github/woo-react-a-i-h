@@ -1,15 +1,23 @@
-import React from "react";
+import React , {useState} from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import MyContext from "../contextApi/context";
 
 
 const OrderDetails3 = (props) => {
-  const top100Films = [
-    { title: "The Shawshank Redemption", year: 1994 },
-    { title: "The Godfather", year: 1972 },
-    { title: "The Godfather: Part II", year: 1974 },
-  ];
+  const [state, setState] = useState({
+    s_f_name: null,
+    s_l_name: null,
+    s_a_l_1: null,
+    s_a_l_2: null,
+    s_city: null,
+    s_state: null,
+    s_post_code: null,
+    s_country: null,
+    s_company: null,
+    s_c_note: null,
+  })
+
   return (
     <MyContext.Consumer>
       {(context) => {
@@ -45,8 +53,11 @@ const OrderDetails3 = (props) => {
                       type="email"
                       class="form-control"
                       id="inputEmail4"
-                      defaultValue={(context.customerById.shipping) ? context.customerById.shipping.first_name : ""}
-                      onChange={(e) => { props.propsData.handleChange("s_f_name", e) }}
+                      
+
+                      value={(state.s_f_name !== null) ? state.s_f_name : (context.customerById.billing) ? context.customerById.billing.first_name : ""}
+                      onChange={(e) => { setState({ ...state, s_f_name: e.target.value }); props.propsData.handleChange("s_f_name", e.target.value); }}
+
                     />
                   </div>
                   <div class="form-group col-md-6">
@@ -64,8 +75,11 @@ const OrderDetails3 = (props) => {
                       type="text"
                       class="form-control"
                       id="inputPassword4"
-                      defaultValue={(context.customerById.shipping) ? context.customerById.shipping.last_name : ""}
-                      onChange={(e) => { props.propsData.handleChange("s_l_name", e) }}
+                     
+
+                      value={(state.s_l_name !== null) ? state.s_l_name : (context.customerById.billing) ? context.customerById.billing.last_name : ""}
+                      onChange={(e) => { setState({ ...state, s_l_name: e.target.value }); props.propsData.handleChange("s_l_name", e.target.value); }}
+
 
                     />
                   </div>
@@ -80,8 +94,10 @@ const OrderDetails3 = (props) => {
                     }}
                     type="text"
                     class="form-control"
-                    defaultValue={(context.customerById.shipping) ? context.customerById.shipping.last_name : ""}
-                    onChange={(e) => { props.propsData.handleChange("s_company", e) }}
+                
+                    
+                    value={(state.s_company !== null) ? state.s_company : (context.customerById.billing) ? context.customerById.billing.last_name : ""}
+                    onChange={(e) => { setState({ ...state, s_company: e.target.value }); props.propsData.handleChange("s_company", e.target.value); }}
                   />
                   {/* Customer Adress */}
                   <div class="form-group col-md-6">
@@ -98,8 +114,11 @@ const OrderDetails3 = (props) => {
                       type="email"
                       class="form-control"
                       id="inputEmail4"
-                      defaultValue={(context.customerById.shipping) ? context.customerById.shipping.address_1 : ""}
-                      onChange={(e) => { props.propsData.handleChange("s_a_l_1", e) }}
+                  
+
+                      
+                    value={(state.s_a_l_1 !== null) ? state.s_a_l_1 : (context.customerById.billing) ? context.customerById.billing.address_1 : ""}
+                    onChange={(e) => { setState({ ...state, s_a_l_1: e.target.value }); props.propsData.handleChange("s_a_l_1", e.target.value); }}
 
                     />
                   </div>
@@ -118,8 +137,11 @@ const OrderDetails3 = (props) => {
                       type="text"
                       class="form-control"
                       id="inputPassword4"
-                      defaultValue={(context.customerById.shipping) ? context.customerById.shipping.address_2 : ""}
-                      onChange={(e) => { props.propsData.handleChange("s_a_l_2", e) }}
+                      
+
+                      
+                    value={(state.s_a_l_2 !== null) ? state.s_a_l_2 : (context.customerById.billing) ? context.customerById.billing.s_a_l_2 : ""}
+                    onChange={(e) => { setState({ ...state, s_a_l_2: e.target.value }); props.propsData.handleChange("s_a_l_2", e.target.value); }}
 
 
                     />
@@ -139,9 +161,11 @@ const OrderDetails3 = (props) => {
                       type="email"
                       class="form-control"
                       id="inputEmail4"
-                      defaultValue={(context.customerById.shipping) ? context.customerById.shipping.city : ""}
-                      onChange={(e) => { props.propsData.handleChange("s_city", e) }}
+                     
 
+                      value={(state.s_city !== null) ? state.s_city : (context.customerById.billing) ? context.customerById.billing.city : ""}
+                      onChange={(e) => { setState({ ...state, s_city: e.target.value }); props.propsData.handleChange("s_city", e.target.value); }}
+  
 
                     />
                   </div>
@@ -160,8 +184,13 @@ const OrderDetails3 = (props) => {
                       type="text"
                       class="form-control"
                       id="inputPassword4"
-                      defaultValue={(context.customerById.shipping) ? context.customerById.shipping.postcode : ""}
-                      onChange={(e) => { props.propsData.handleChange("s_post_code", e) }}
+
+                    
+
+                      
+                      value={(state.s_post_code !== null) ? state.s_post_code : (context.customerById.billing) ? context.customerById.billing.postcode : ""}
+                      onChange={(e) => { setState({ ...state, s_post_code: e.target.value }); props.propsData.handleChange("s_post_code", e.target.value); }}
+  
 
 
                     />
@@ -173,7 +202,7 @@ const OrderDetails3 = (props) => {
               </label>
                     <Autocomplete
                       id="Country"
-                      options={top100Films}
+                      options={[]}
                       getOptionLabel={(option) => option.title}
                       style={{ width: 200, border: "1px solid" }}
                       renderInput={(params) => (
@@ -187,7 +216,7 @@ const OrderDetails3 = (props) => {
               </label>
                     <Autocomplete
                       id="Country"
-                      options={top100Films}
+                      options={[]}
                       getOptionLabel={(option) => option.title}
                       style={{ width: 200, border: "1px solid" }}
                       renderInput={(params) => (
@@ -201,8 +230,8 @@ const OrderDetails3 = (props) => {
                       Customer provided note
               </label>
                     <textarea style={{ width: "200px" }}
-    
-                     onChange={(e) => { props.propsData.handleChange("s_c_note", e) }}
+
+                      onChange={(e) => { props.propsData.handleChange("s_c_note", e) }}
                     >
 
                     </textarea>

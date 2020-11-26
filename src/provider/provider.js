@@ -21,6 +21,7 @@ function App(props) {
 
 
 
+
     const [activePageOrder, setactivePageOrder] = useState(1);
     const [activePageProduct, setactivePageProduct] = useState(1);
 
@@ -31,6 +32,10 @@ function App(props) {
 
     const [totalProducts, setTotalProducts] = useState({});
     const [totalOrders, setTotalOrders] = useState({});
+
+    const [autocompleValueInEditPage, setautocompleValueInEditPage] = useState("");
+    const [getOverideTax, setGetOverideTax] = useState("");
+
 
 
 
@@ -79,7 +84,7 @@ function App(props) {
         WooCommerce.getAsync('products').then(function (result) {
             setProductByCustomer(JSON.parse(result.toJSON().body))
         });
-       
+
         WooCommerceOld.getAsync('orders/count', function (result, error) {
             setTotalOrders(JSON.parse(error.toJSON().body).count)
         });
@@ -88,29 +93,38 @@ function App(props) {
             setTotalProducts(JSON.parse(error.toJSON().body).count)
 
         });
+        let getOverideTaxFn =async()=>{
+            const { data } = await axios.get(`https://capinfostaging.wpengine.com/wp-json/max_react_api/v1/get_tax_rates`);
+            console.log("dataA" ,data)
+            setGetOverideTax(data)
+
+        }
+        
+        getOverideTaxFn();
+        
 
     }, []);
 
-    let updateOrder = (orderId , data) => {
-        WooCommerce.putAsync(`orders/${orderId}` , data  ).then(function(result) {
+    let updateOrder = (orderId, data) => {
+        WooCommerce.putAsync(`orders/${orderId}`, data).then(function (result) {
             console.log(JSON.parse(result.toJSON().body))
-          });    
+        });
     }
     let createOrder = (data) => {
-        WooCommerce.postAsync(`orders` , data  ).then(function(result) {
+        WooCommerce.postAsync(`orders`, data).then(function (result) {
             console.log(JSON.parse(result.toJSON().body))
-          });    
+        });
     }
-    let createUserFn = (data)=>{
-        WooCommerce.postAsync(`customers` , data  ).then(function(result) {
+    let createUserFn = (data) => {
+        WooCommerce.postAsync(`customers`, data).then(function (result) {
             console.log(JSON.parse(result.toJSON().body))
-          });  
+        });
 
     }
 
-    let searchItemsFn=(e)=>{
+    let searchItemsFn = (e) => {
 
-         WooCommerce.getAsync(`products?search=${e}`).then(function (result) {
+        WooCommerce.getAsync(`products?search=${e}`).then(function (result) {
             setSearchItem(JSON.parse(result.toJSON().body))
         });
     }
@@ -222,14 +236,32 @@ function App(props) {
         });
     }
 
-    let getOrderByIdFn =(orderId)=>{
-        WooCommerce.getAsync(`orders/${orderId}`).then(function(result) {
+    let getOrderByIdFn = async(orderId) => {
+        
+        let customerId ;
+       await WooCommerce.getAsync(`orders/${orderId}`).then(function (result) {
             setCustomerById(JSON.parse(result.toJSON().body))
             console.log(JSON.parse(result.toJSON().body))
-          }); 
+            let obj = JSON.parse(result.toJSON().body)
+            customerId = obj.customer_id
+            
+        });
+
+
+        WooCommerce.getAsync(`customers/${customerId}`).then(function (result) {
+            setautocompleValueInEditPage(JSON.parse(result.toJSON().body))
+        });
+
+        console.log("CustomerById" ,customerById)
     }
+    
 
-
+    let changeShipping = async (a, b) => {
+        console.log(a,b)
+        const { data } = await axios.get(`https://cors-anywhere.herokuapp.com/https://capinfostaging.wpengine.com/wp-json/max_react_api/v1/edit_bulk_shipping/${a}/${b}`);
+        console.log("data" ,data);
+    }
+  
 
     return (
         <MyContext.Provider
@@ -246,6 +278,8 @@ function App(props) {
                 searchItem, setSearchItem,
                 placeOrderItem, setPlaceOrderItem,
                 selectCustomerId, setSelectCustomerId,
+                autocompleValueInEditPage, setautocompleValueInEditPage,
+                getOverideTax, setGetOverideTax,
 
 
 
@@ -257,7 +291,8 @@ function App(props) {
                 updateOrder,
                 createOrder,
                 createUserFn,
-                getOrderByIdFn
+                getOrderByIdFn,
+                changeShipping
 
 
 
