@@ -16,7 +16,7 @@ import TotalBill from '../components/TotalBill.js'
 
 
 
-const DataHolder = ({orderId}) => {
+const DataHolder = ({ orderId }) => {
 
   const context = useContext(MyContext);
   const [state, setState] = useState({
@@ -63,26 +63,20 @@ const DataHolder = ({orderId}) => {
   let handleChange = (name, e) => {
     setState({ ...state, [name]: e })
   };
-  useEffect(() => { 
-    if(orderId){
+  useEffect(() => {
+    if (orderId) {
       context.getOrderByIdFn(orderId)
-      alert("oasdf")
     }
-    // else{
-    //   context.setautocompleValueInEditPage([])
-    //   context.setCustomerById([])
-    // }
-
   }, []);
-console.log("state" , state)
+  console.log("state", state)
   let callCreateOrder = () => {
 
     const data = {
       payment_method: "bacs",
       payment_method_title: "Direct Bank Transfer",
       set_paid: true,
-      status:state.status,
-      customer_id:context.selectCustomerId,
+      status: state.status,
+      customer_id: context.selectCustomerId,
       billing: {
         'first_name': (state.b_f_name) ? state.b_f_name : "",
         'last_name': (state.b_l_name) ? state.b_l_name : "",
@@ -95,7 +89,7 @@ console.log("state" , state)
         'email': (state.b_email) ? state.b_email : "example@example.com",
         'phone': (state.b_phone) ? state.b_phone : "",
         'company': (state.b_company) ? state.b_company : "",
-        'transaction_id':(state.transaction_id) ? state.transaction_id : "",
+        'transaction_id': (state.transaction_id) ? state.transaction_id : "",
       },
       shipping: {
         'first_name': (state.s_f_name) ? state.s_f_name : "",
@@ -107,7 +101,7 @@ console.log("state" , state)
         'postcode': (state.s_post_code) ? state.s_post_code : "",
         'country': (state.s_country) ? state.s_country : "",
         'company': (state.s_company) ? state.s_company : "",
-        'note' : (state.s_c_note) ? state.s_c_note : "",
+        'note': (state.s_c_note) ? state.s_c_note : "",
       },
       line_items: context.placeOrderItem,
       shipping_lines: [
@@ -119,9 +113,7 @@ console.log("state" , state)
       ]
     };
 
-    context.createOrder( data)
-
-
+    context.createOrder(data)
   }
 
   let callUpdateOrder = () => {
@@ -130,33 +122,33 @@ console.log("state" , state)
       payment_method: "bacs",
       payment_method_title: "Direct Bank Transfer",
       set_paid: true,
-      status:state.status,
-      customer_id:context.selectCustomerId,
+      status: state.status,
+      customer_id: context.selectCustomerId,
       billing: {
-        'first_name': (state.b_f_name) ? state.b_f_name : "",
-        'last_name': (state.b_l_name) ? state.b_l_name : "",
-        'address_1': (state.b_a_l_1) ? state.b_a_l_1 : "",
-        'address_2': (state.b_a_l_2) ? state.b_a_l_2 : "",
-        'city': (state.b_city) ? state.b_city : "",
-        'state': (state.b_state) ? state.b_state : "",
-        'postcode': (state.b_post_code) ? state.b_post_code : "",
-        'country': (state.b_country) ? state.b_country : "",
-        'email': (state.b_email) ? state.b_email : "example@example.com",
-        'phone': (state.b_phone) ? state.b_phone : "",
-        'company': (state.b_company) ? state.b_company : "",
-        'transaction_id':(state.transaction_id) ? state.transaction_id : "",
+        'first_name': (state.b_f_name !== null) ? state.b_f_name : (context.customerById.billing) ? context.customerById.billing.first_name : "",
+        'last_name': (state.b_l_name !== null) ? state.b_l_name : (context.customerById.billing) ? context.customerById.billing.last_name : "",
+        'address_1': (state.b_a_l_1 !== null) ? state.b_a_l_1 : (context.customerById.billing) ? context.customerById.billing.address_1 : "",
+        'address_2': (state.b_a_l_2 !== null) ? state.b_a_l_2 : (context.customerById.billing) ? context.customerById.billing.address_2 : "",
+        'city': (state.b_city !== null) ? state.b_city : (context.customerById.billing) ? context.customerById.billing.city : "",
+        'state': (state.b_state !== null) ? state.b_state : (context.customerById.billing) ? context.customerById.billing.state : "",
+        'postcode': (state.b_post_code !== null) ? state.b_post_code : (context.customerById.billing) ? context.customerById.billing.postcode : "",
+        'country': (state.b_country !== null) ? state.b_country : (context.customerById.billing) ? context.customerById.billing.country : "",
+        'email': (state.b_email !== null) ? state.b_email : (context.customerById.billing) ? context.customerById.billing.email : "",
+        'phone': (state.b_phone !== null) ? state.b_phone : (context.customerById.billing) ? context.customerById.billing.phone : "",
+        'company': (state.b_company !== null) ? state.b_company : (context.customerById.billing) ? context.customerById.billing.company : "",
+        'transaction_id': (state.transaction_id !== null) ? state.transaction_id : (context.customerById.billing) ? context.customerById.billing.transaction_id : "",
       },
       shipping: {
-        'first_name': (state.s_f_name) ? state.s_f_name : "",
-        'last_name': (state.s_l_name) ? state.s_l_name : "",
-        'address_1': (state.s_a_l_1) ? state.s_a_l_1 : "",
-        'address_2': (state.s_a_l_2) ? state.s_a_l_2 : "",
-        'city': (state.s_city) ? state.s_city : "",
-        'state': (state.s_state) ? state.s_state : "",
-        'postcode': (state.s_post_code) ? state.s_post_code : "",
-        'country': (state.s_country) ? state.s_country : "",
-        'company': (state.s_company) ? state.s_company : "",
-        'note' : (state.s_c_note) ? state.s_c_note : "",
+        'first_name': (state.s_f_name !== null) ? state.s_f_name : (context.customerById.shipping) ? context.customerById.shipping.first_name : "",
+        'last_name': (state.s_l_name !== null) ? state.s_l_name : (context.customerById.shipping) ? context.customerById.shipping.last_name : "",
+        'address_1': (state.s_a_l_1 !== null) ? state.s_a_l_1 : (context.customerById.shipping) ? context.customerById.shipping.address_1 : "",
+        'address_2': (state.s_a_l_2 !== null) ? state.s_a_l_2 : (context.customerById.shipping) ? context.customerById.shipping.address_2 : "",
+        'city': (state.s_city !== null) ? state.s_city : (context.customerById.shipping) ? context.customerById.shipping.city : "",
+        'state': (state.s_state !== null) ? state.s_state : (context.customerById.shipping) ? context.customerById.shipping.state : "",
+        'postcode': (state.s_post_code !== null) ? state.s_post_code : (context.customerById.shipping) ? context.customerById.shipping.postcode : "",
+        'country': (state.s_country !== null) ? state.s_country : (context.customerById.shipping) ? context.customerById.shipping.country : "",
+        'company': (state.s_company !== null) ? state.s_company : (context.customerById.shipping) ? context.customerById.shipping.company : "",
+        'note': (state.s_c_note !== null) ? state.s_c_note : (context.customerById.shipping) ? context.customerById.shipping.note : "",
       },
       line_items: context.placeOrderItem,
       shipping_lines: [
@@ -168,16 +160,14 @@ console.log("state" , state)
       ]
     };
 
-    context.updateOrder(  orderId , data)
-    
+    context.updateOrder(orderId, data)
   }
-
 
   return (
     <>
-      {console.log(context.selectCustomerId)}
+      {console.log("byid")}
       <main className="dash-content">
-       
+
         <div className="container-fluid">
           {/* Order Details first table */}
           <div className="row">
@@ -220,12 +210,12 @@ console.log("state" , state)
                   </div>
                 </div>
               </div>
-              <AddItems/>
-              <TotalBill orderID={orderId}/>
+              <AddItems taxLines={context.customerById.tax_lines} addItems={context.customerById ? context.customerById.line_items : null} />
+              <TotalBill totalOrder={context.customerById} orderID={orderId} />
             </div>
             {/* Small Right Side Boxes */}
             <div className="col-xl-3">
-              <SmallBoxes propsData ={{callCreateOrder , callUpdateOrder , orderId}} />
+              <SmallBoxes propsData={{ callCreateOrder, callUpdateOrder, orderId }} />
             </div>
           </div>
         </div>

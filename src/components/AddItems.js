@@ -1,14 +1,14 @@
-import React, { useState  , useContext} from "react";
+import React, { useState, useContext } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import MyContext from "../contextApi/context";
 import { MDBIcon } from "mdbreact";
 
-const AddItems = () => {
+const AddItems = ({ addItems, taxLines }) => {
   const context = useContext(MyContext)
   let paramsValue = '';
   const [flag, setFlag] = useState(true);
-  
+
   const [productID, setID] = useState();
   const [productName, setName] = useState();
   const [productQnt, setQnt] = useState();
@@ -19,18 +19,17 @@ const AddItems = () => {
 
   const AddProduct = (event) => {
     event.preventDefault();
-    let obj = { 
-      product_id:productID,
-       quantity:productQnt,
-       itemDetails,
-        
-      };
-      if(obj.product_id && obj.quantity){
+    let obj = {
+      product_id: productID,
+      quantity: productQnt,
+      itemDetails,
 
-        context.setPlaceOrderItem([...context.placeOrderItem ,obj])
-      }
+    };
+    if (obj.product_id && obj.quantity) {
+
+      context.setPlaceOrderItem([...context.placeOrderItem, obj])
+    }
     setQnt('')
-    document.getElementById('combo-box-demo').innerText=""
   }
 
   return (
@@ -38,7 +37,6 @@ const AddItems = () => {
       {(context) => {
         return (
           <div>
-           
             <div
               className="card easion-card"
               style={{ boxShadow: "1px 3px 8px #888888", width: "100%" }}
@@ -85,23 +83,23 @@ const AddItems = () => {
                   {/* <form> */}
                   <div className="form-row">
                     <div className="form-group col-md-5">
-                      
+
 
                       <Autocomplete
-                      
-                        
+
+
                         options={
 
                           context.searchItem && Object.entries(context.searchItem).map((element, index) => {
-                            
+
                             return (
                               element[1]
                             )
 
                           })
                         }
-                        
-                        
+
+
                         getOptionLabel={(option) => option.name}
                         style={{ width: "100%" }}
                         renderInput={(params) => {
@@ -109,7 +107,7 @@ const AddItems = () => {
 
                           if (params.inputProps.value) {
 
-                            if (params.inputProps.value !== searchValue || flag ) {
+                            if (params.inputProps.value !== searchValue || flag) {
                               context.searchItemsFn(params.inputProps.value);
                               setSearchValue(params.inputProps.value)
                               setFlag(false)
@@ -117,16 +115,16 @@ const AddItems = () => {
 
                           }
 
-                          return <TextField {...params} label="Customer" variant="outlined" />
+                          return <TextField {...params} label="Product" variant="outlined" />
                         }}
 
                         onChange={(event, value) => {
 
-                      if(value){
-                        setID(value.id);
-                        setName(value.name)
-                        setItemDetails(value)
-                      }
+                          if (value) {
+                            setID(value.id);
+                            setName(value.name)
+                            setItemDetails(value)
+                          }
 
                         }}
                       />
@@ -158,7 +156,6 @@ const AddItems = () => {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th scope="col">Id</th>
                           {/* Item info */}
                           <th scope="col"></th>
                           <th scope="col">Item</th>
@@ -169,26 +166,30 @@ const AddItems = () => {
 
                           {/* item info end */}
 
-                          <th scope="col">Cost</th>
-                          <th scope="col">Qty</th>
-                          <th scope="col">Sub-Total</th>
-                          <th scope="col">OH Tax</th>
-                          <th scope="col">VAT</th>
-                          {/* Har product k against dalna ha ya total ma dalna ha tex */}
                           <th scope="col">Shipment</th>
+                          <th scope="col"></th>
+                          <th scope="col"></th>
                           <th scope="col">Shipping Cost</th>
-                          <th scope="col">Status</th>
+                          <th scope="col"></th>
+                          <th scope="col"></th>
+                          <th scope="col">Paid</th>
+                          <th scope="col">Dues</th>
+                          <th scope="col">Cost</th>
+                          {/* Har product k against dalna ha ya total ma dalna ha tex */}
+                          <th scope="col">Qty</th>
                           <th scope="col">Total</th>
+                          <th scope="col">CA Tax</th>
+                          <th scope="col">VAT</th>
                         </tr>
                       </thead>
                       <tbody style={{ fontSize: "13px" }}>
                         {
                           context.placeOrderItem ? context.placeOrderItem.map((item, index) => {
+                            { console.log("hehhjjhy" + item) }
                             return <tr>
-                              <td scope="row">{item.productID}</td>
                               <td>
                                 <img
-                                  src="pic.jpg"
+                                  src={item.itemDetails ? item.itemDetails.images[0].src : null}
                                   style={{
                                     width: "40px",
                                     height: "50px",
@@ -198,16 +199,13 @@ const AddItems = () => {
 
                               <td colSpan="5">
                                 {item.itemDetails.name
-                                
-                                }
-                                <br/>
-                                {item.itemDetails.sku
-                                
-                              }
-                              </td>
-                              <td>$25.00</td>
-                              <td>{item.quantity}</td>
 
+                                }
+                                <br />
+                                {'SKU: ' + item.itemDetails.sku
+
+                                }
+                              </td>
                               <td>
                                 <a
                                   href="#shippingTable"
@@ -217,18 +215,96 @@ const AddItems = () => {
                                   <MDBIcon icon="truck" />
                                 </a>
                               </td>
-                              <td>$34.55</td>
-                              <td>$55.67</td>
                               <td
-                                style={{ backgroundColor: "lightgreen", color: "white" }}
+                                style={{
+                                  backgroundColor: "lightgreen",
+                                  color: "white",
+                                  width: "6rem",
+                                  textAlign: "center"
+                                }}
                               >
-                                Shipped
+                                Not Shipped
                              <div>2-11/23/20</div>
                               </td>
-                              <td>$0</td>
-                              <td>paid</td>
+                              <td></td>
+                              <td></td>
 
+                              <td>
+                                <button className="btn btn-primary">Edit Cost</button>
+                              </td>
+                              <td></td>
+                              <td></td>
+                              <td>
+
+                              </td>
+                              <td>${Number(item.itemDetails.price)}</td>
+                              <td>x {Number(item.quantity)}</td>
+                              <td>${Number(item.itemDetails.price * item.quantity).toFixed(2)}</td>
                               <td>$200</td>
+                              <td>$200</td>
+                            </tr>
+                          }) : null
+                        }
+
+                        {/* =======================================already added========================== */}
+                        {
+                          addItems ? addItems.map((item, index) => {
+                            return <tr>
+                              <td>
+                                <img
+                                  src=''
+                                  style={{
+                                    width: "40px",
+                                    height: "50px",
+                                  }}
+                                />
+                              </td>
+
+                              <td colSpan="5">
+                                {item.name
+
+                                }
+                                <br />
+                                {'SKU: ' + item.sku
+
+                                }
+                              </td>
+                              <td>
+                                <a
+                                  href="#shippingTable"
+                                  data-toggle="modal"
+                                  data-target="#shippingTable"
+                                >
+                                  <MDBIcon icon="truck" />
+                                </a>
+                              </td>
+                              <td
+                                style={{
+                                  backgroundColor: "lightgreen",
+                                  color: "white",
+                                  width: "6rem",
+                                  textAlign: "center"
+                                }}
+                              >
+                                Not Shipped
+                             <div>2-11/23/20</div>
+                              </td>
+                              <td></td>
+                              <td></td>
+
+                              <td>
+                                <button className="btn btn-primary">Edit Cost</button>
+                              </td>
+                              <td></td>
+                              <td></td>
+                              <td>
+
+                              </td>
+                              <td>${Number(item.price)}</td>
+                              <td>x {Number(item.quantity)}</td>
+                              <td>${Number(item.price * item.quantity).toFixed(2)}</td>
+                              <td>${taxLines[index] ? taxLines[index].tax_total : 0}</td>
+                              <td>${taxLines[index] ? taxLines[index].shipping_tax_total : 0}</td>
                             </tr>
                           }) : null
                         }

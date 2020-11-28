@@ -55,7 +55,7 @@ const OrderDetails3 = (props) => {
                       id="inputEmail4"
                       
 
-                      value={(state.s_f_name !== null) ? state.s_f_name : (context.customerById.billing) ? context.customerById.billing.first_name : ""}
+                      value={(state.s_f_name !== null) ? state.s_f_name : (context.customerById.shipping) ? context.customerById.shipping.first_name : ""}
                       onChange={(e) => { setState({ ...state, s_f_name: e.target.value }); props.propsData.handleChange("s_f_name", e.target.value); }}
 
                     />
@@ -77,7 +77,7 @@ const OrderDetails3 = (props) => {
                       id="inputPassword4"
                      
 
-                      value={(state.s_l_name !== null) ? state.s_l_name : (context.customerById.billing) ? context.customerById.billing.last_name : ""}
+                      value={(state.s_l_name !== null) ? state.s_l_name : (context.customerById.shipping) ? context.customerById.shipping.last_name : ""}
                       onChange={(e) => { setState({ ...state, s_l_name: e.target.value }); props.propsData.handleChange("s_l_name", e.target.value); }}
 
 
@@ -96,7 +96,7 @@ const OrderDetails3 = (props) => {
                     class="form-control"
                 
                     
-                    value={(state.s_company !== null) ? state.s_company : (context.customerById.billing) ? context.customerById.billing.last_name : ""}
+                    value={(state.s_company !== null) ? state.s_company : (context.customerById.shipping) ? context.customerById.shipping.last_name : ""}
                     onChange={(e) => { setState({ ...state, s_company: e.target.value }); props.propsData.handleChange("s_company", e.target.value); }}
                   />
                   {/* Customer Adress */}
@@ -117,7 +117,7 @@ const OrderDetails3 = (props) => {
                   
 
                       
-                    value={(state.s_a_l_1 !== null) ? state.s_a_l_1 : (context.customerById.billing) ? context.customerById.billing.address_1 : ""}
+                    value={(state.s_a_l_1 !== null) ? state.s_a_l_1 : (context.customerById.shipping) ? context.customerById.shipping.address_1 : ""}
                     onChange={(e) => { setState({ ...state, s_a_l_1: e.target.value }); props.propsData.handleChange("s_a_l_1", e.target.value); }}
 
                     />
@@ -140,7 +140,7 @@ const OrderDetails3 = (props) => {
                       
 
                       
-                    value={(state.s_a_l_2 !== null) ? state.s_a_l_2 : (context.customerById.billing) ? context.customerById.billing.s_a_l_2 : ""}
+                    value={(state.s_a_l_2 !== null) ? state.s_a_l_2 : (context.customerById.shipping) ? context.customerById.shipping.s_a_l_2 : ""}
                     onChange={(e) => { setState({ ...state, s_a_l_2: e.target.value }); props.propsData.handleChange("s_a_l_2", e.target.value); }}
 
 
@@ -163,7 +163,7 @@ const OrderDetails3 = (props) => {
                       id="inputEmail4"
                      
 
-                      value={(state.s_city !== null) ? state.s_city : (context.customerById.billing) ? context.customerById.billing.city : ""}
+                      value={(state.s_city !== null) ? state.s_city : (context.customerById.shipping) ? context.customerById.shipping.city : ""}
                       onChange={(e) => { setState({ ...state, s_city: e.target.value }); props.propsData.handleChange("s_city", e.target.value); }}
   
 
@@ -188,7 +188,7 @@ const OrderDetails3 = (props) => {
                     
 
                       
-                      value={(state.s_post_code !== null) ? state.s_post_code : (context.customerById.billing) ? context.customerById.billing.postcode : ""}
+                      value={(state.s_post_code !== null) ? state.s_post_code : (context.customerById.shipping) ? context.customerById.shipping.postcode : ""}
                       onChange={(e) => { setState({ ...state, s_post_code: e.target.value }); props.propsData.handleChange("s_post_code", e.target.value); }}
   
 

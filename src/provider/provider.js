@@ -19,7 +19,8 @@ function App(props) {
     const [selectCustomerId, setSelectCustomerId] = useState()
 
 
-
+    const [percentagePrice, setPercentagePrice] = useState()
+    const [customFixedValue, setCustomFixedValue] = useState();
 
 
     const [activePageOrder, setactivePageOrder] = useState(1);
@@ -93,19 +94,23 @@ function App(props) {
             setTotalProducts(JSON.parse(error.toJSON().body).count)
 
         });
-        let getOverideTaxFn =async()=>{
-            const { data } = await axios.get(`https://capinfostaging.wpengine.com/wp-json/max_react_api/v1/get_tax_rates`);
-            console.log("dataA" ,data)
+
+        let getOverideTaxFn = async () => {
+            const { data } = await axios.get(`https://capinfostaging.wpengine.com/wp-json/max_react_api/v2/get_tax_rates`);
+            console.log(data)
             setGetOverideTax(data)
+            setPercentagePrice(data.percentages[0].priceamount);
+            setCustomFixedValue(data.fix_rates[0].priceamount);
 
         }
-        
+
         getOverideTaxFn();
-        
+
 
     }, []);
 
     let updateOrder = (orderId, data) => {
+        console.log(orderId, data)
         WooCommerce.putAsync(`orders/${orderId}`, data).then(function (result) {
             console.log(JSON.parse(result.toJSON().body))
         });
@@ -236,15 +241,15 @@ function App(props) {
         });
     }
 
-    let getOrderByIdFn = async(orderId) => {
-        
-        let customerId ;
-       await WooCommerce.getAsync(`orders/${orderId}`).then(function (result) {
+    let getOrderByIdFn = async (orderId) => {
+
+        let customerId;
+        await WooCommerce.getAsync(`orders/${orderId}`).then(function (result) {
             setCustomerById(JSON.parse(result.toJSON().body))
             console.log(JSON.parse(result.toJSON().body))
             let obj = JSON.parse(result.toJSON().body)
             customerId = obj.customer_id
-            
+
         });
 
 
@@ -252,16 +257,26 @@ function App(props) {
             setautocompleValueInEditPage(JSON.parse(result.toJSON().body))
         });
 
-        console.log("CustomerById" ,customerById)
+        console.log("CustomerById", customerById)
     }
-    
+
 
     let changeShipping = async (a, b) => {
-        console.log(a,b)
-        const { data } = await axios.get(`https://cors-anywhere.herokuapp.com/https://capinfostaging.wpengine.com/wp-json/max_react_api/v1/edit_bulk_shipping/${a}/${b}`);
-        console.log("data" ,data);
+        console.log(a, b)
+        const { data } = await axios.get(`https://cors-anywhere.herokuapp.com/https://capinfostaging.wpengine.com/wp-json/max_react_api/v2/edit_bulk_shipping/${a}/${b}`);
+        console.log("data", data);
     }
-  
+
+    const sendTaxDataFn = async (selectType, percentagePrice, fixedChangeValue, customFixedValue, checkBoxValue, orderId) => {
+        await axios.get(`https://capinfostaging.wpengine.com/wp-json/max_react_api/v2/update_tax_rates?custom_tax_enable=${checkBoxValue}&custom_price_option=${selectType}&custom_price=${percentagePrice}&order_id=${orderId}&custom_pricefixdropdown=${customFixedValue}&custom_price_fixed=${fixedChangeValue}`)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
 
     return (
         <MyContext.Provider
@@ -280,7 +295,8 @@ function App(props) {
                 selectCustomerId, setSelectCustomerId,
                 autocompleValueInEditPage, setautocompleValueInEditPage,
                 getOverideTax, setGetOverideTax,
-
+                percentagePrice, setPercentagePrice,
+                customFixedValue, setCustomFixedValue,
 
 
                 searchOrder,
@@ -292,10 +308,8 @@ function App(props) {
                 createOrder,
                 createUserFn,
                 getOrderByIdFn,
-                changeShipping
-
-
-
+                changeShipping,
+                sendTaxDataFn
 
             }}
         >

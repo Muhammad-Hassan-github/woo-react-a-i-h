@@ -1,5 +1,9 @@
-.text-sizing-management{
+.text-sizing-management {
   font-size: 13px !important;
   line-height: 1.5 !important;
   color: #3d3d3d;
+}
+
+.display_none {
+  display: none;
 }

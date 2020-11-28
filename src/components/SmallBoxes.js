@@ -5,11 +5,11 @@ import CustomersBox from "./CustomersBox";
 import CustomTaxBox from "./CustomTaxBox";
 import EmailBox from "./EmailBox";
 
-const SmallBoxes = ({propsData}) => {
+const SmallBoxes = ({ propsData }) => {
   return (
     <div>
       <div className="col-xl-12">
-        <ActionBox  propsData ={propsData} />
+        <ActionBox propsData={propsData} />
       </div>
       {/* secon table box */}
       <div className="col-xl-12">
@@ -25,7 +25,7 @@ const SmallBoxes = ({propsData}) => {
       </div>
       {/* 5th */}
       <div className="col-xl-12">
-        <CustomTaxBox />
+        <CustomTaxBox orderID={propsData.orderId} />
       </div>
     </div>
   );

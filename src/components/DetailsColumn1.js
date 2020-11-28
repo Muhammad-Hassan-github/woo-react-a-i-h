@@ -204,18 +204,19 @@ const OrderDetail1 = (props) => {
                 Customer
         </label>
 
-              <Autocomplete
+        <Autocomplete
                id="controllable-states-demo"
-                value={context.autocompleValueInEditPage ? `${context.autocompleValueInEditPage.first_name} ${context.autocompleValueInEditPage.last_name} (#${context.autocompleValueInEditPage.username} - ${context.autocompleValueInEditPage.email}) `  : ""}
+                value={context.autocompleValueInEditPage.first_name ? `${context.autocompleValueInEditPage.first_name} ${context.autocompleValueInEditPage.last_name} (#${context.autocompleValueInEditPage.username} - ${context.autocompleValueInEditPage.email}) `  : ""}
      
                 options={
                   context.customerdetail && Object.entries(context.customerdetail).map((element, index) => {
                     return (
-                      element[1].objValue
+                      element[1]
                     )
 
                   })
                 }
+                getOptionLabel={(option) => option.objValue  ?  option.objValue : context.autocompleValueInEditPage ? `${context.autocompleValueInEditPage.first_name} ${context.autocompleValueInEditPage.last_name} (#${context.autocompleValueInEditPage.username} - ${context.autocompleValueInEditPage.email}) `  : ""}
              
                 style={{ width: "120%" }}
                 renderInput={(params) => {
@@ -228,7 +229,7 @@ const OrderDetail1 = (props) => {
                     }
 
                   }
-                  return <TextField {...params} label="Customer" defaultValue="The Godfather"  variant="outlined" />
+                  return <TextField {...params} label="Customer" value="The Godfather"  variant="outlined" />
                 }}
 
                 onChange={(event, newValue) => {
