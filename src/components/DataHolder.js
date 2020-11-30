@@ -12,9 +12,13 @@ import DetailsColumn2 from "./DetailsColumn2";
 import DetailsColumn3 from "./DetailsColumn3";
 import MyContext from "../contextApi/context";
 import AddItems from '../components/AddItems';
-import TotalBill from '../components/TotalBill.js'
-
-
+import TotalBill from '../components/TotalBill.js';
+import PdfInvoice from "./PdfInvoiceData";
+import Payment from "./Payments";
+import PartialPayment from "./Partialpayments";
+import GovBuddy from "./Govbuddy";
+import AddCustomFields from "./AddCustomFeilds";
+import EcheckPayment from './EcheckPayment';
 
 const DataHolder = ({ orderId }) => {
 
@@ -68,7 +72,6 @@ const DataHolder = ({ orderId }) => {
       context.getOrderByIdFn(orderId)
     }
   }, []);
-  console.log("state", state)
   let callCreateOrder = () => {
 
     const data = {
@@ -165,7 +168,6 @@ const DataHolder = ({ orderId }) => {
 
   return (
     <>
-      {console.log("byid")}
       <main className="dash-content">
 
         <div className="container-fluid">
@@ -190,7 +192,7 @@ const DataHolder = ({ orderId }) => {
                   {/* Order Details Column 1 */}
                   <div className="row">
                     <div className="col-xl-3">
-                      <DetailsColumn1 propsData={{ state, handleChange }} />
+                      <DetailsColumn1 propsData={{ state, handleChange, orderId }} />
                     </div>
                     {/* =========================================== */}
 
@@ -210,8 +212,14 @@ const DataHolder = ({ orderId }) => {
                   </div>
                 </div>
               </div>
+              <PdfInvoice />
               <AddItems taxLines={context.customerById.tax_lines} addItems={context.customerById ? context.customerById.line_items : null} />
               <TotalBill totalOrder={context.customerById} orderID={orderId} />
+              <Payment />
+              <PartialPayment />
+              <GovBuddy />
+              {/* <AddCustomFields />
+              <EcheckPayment /> */}
             </div>
             {/* Small Right Side Boxes */}
             <div className="col-xl-3">

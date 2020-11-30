@@ -17,14 +17,14 @@ const TotalBill = ({ orderID, totalOrder }) => {
   let subTotal = null;
   if (totalOrder.line_items) {
     totalOrder.line_items.forEach(item => {
-      subTotal = subTotal + (parseInt(item.price) * parseInt(item.quantity));
+      subTotal = subTotal + (parseFloat(item.price) * parseFloat(item.quantity));
     });
   }
 
   let totalCaTax = null;
   if (totalOrder.tax_lines) {
     totalOrder.tax_lines.forEach(item => {
-      totalCaTax = totalCaTax + parseInt(item.tax_total);
+      totalCaTax = totalCaTax + parseFloat(item.tax_total);
     });
   }
 
@@ -39,6 +39,7 @@ const TotalBill = ({ orderID, totalOrder }) => {
       {(context) => {
         return (
           <div>
+            {console.log(totalOrder)}
             <div
               className="card easion-card"
               style={{ boxShadow: "1px 3px 8px #888888", width: "100%" }}
@@ -83,25 +84,29 @@ const TotalBill = ({ orderID, totalOrder }) => {
                             <td>${subTotal ? subTotal.toFixed(2) : 0}</td>
                           </tr>
                           <tr>
+                            <th scope="row">Shipping</th>
+                            <td>${totalOrder ? parseInt(totalOrder.shipping_total).toFixed(2) : 0}</td>
+                          </tr>
+                          <tr>
                             <th scope="row">Coupon(s)</th>
                             <td>-${totalOrder ? parseInt(totalOrder.discount_total).toFixed(2) : 0}</td>
 
                           </tr>
                           <tr>
-                            <th scope="row">CA Tax</th>
+                            <th scope="row">Tax</th>
                             <td>${totalCaTax ? totalCaTax.toFixed(2) : 0}</td>
                           </tr>
-                          <tr>
+                          {/* <tr>
                             <th scope="row">VAT</th>
                             <td>${totalVaTax ? totalVaTax.toFixed(2) : 0}</td>
-                          </tr>
+                          </tr> */}
                           <tr>
                             <th scope="row">Order Total</th>
-                            <td>${(subTotal - parseInt(totalOrder.discount_total) + totalCaTax + totalVaTax).toFixed(2)}</td>
+                            <td>${orderID ? totalOrder.total : (subTotal - parseInt(totalOrder.discount_total) + totalCaTax + totalVaTax).toFixed(2)}</td>
                           </tr>
                           <tr>
                             <th scope="row">Paid</th>
-                            <td>${(subTotal - parseInt(totalOrder.discount_total) + totalCaTax + totalVaTax).toFixed(2)}</td>
+                            <td>${(subTotal - parseInt(totalOrder.discount_total) + parseInt(totalOrder.shipping_total) + totalCaTax + totalVaTax).toFixed(2)}</td>
                           </tr>
                           <tr>
                             <th scope="row">Due</th>
@@ -183,10 +188,10 @@ const TotalBill = ({ orderID, totalOrder }) => {
                         <div class="form-group col-md-8">
                           <label for="inputCity">
                             <input type="checkbox" /> Title
-                    </label>
+                          </label>
                           <p>
                             <input type="checkbox" /> name of the product
-                    </p>
+                          </p>
                         </div>
                         <div class="form-group col-md-2">
                           <label for="inputCity">Quantity</label>
@@ -214,7 +219,7 @@ const TotalBill = ({ orderID, totalOrder }) => {
                         <div class="form-group col-md-2">
                           <button type="button" class="btn btn-primary">
                             Update
-                    </button>
+                          </button>
                         </div>
                       </div>
                     </form>

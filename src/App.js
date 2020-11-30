@@ -12,12 +12,14 @@ import Dashboard from './components/Dashboard';
 import Orders from './components/Orders';
 import Products from './components/Products';
 import MyProvider from "./provider/provider";
+import Error from "./provider/Error";
 
 function App() {
 
   return (
     <MyProvider>
       <div>
+        <Error />
         <BrowserRouter>
           <Switch>
             <Route path="/react/orders" component={Orders} />
@@ -26,7 +28,7 @@ function App() {
             <Route path="/" component={Dashboard} />
           </Switch>
         </BrowserRouter>
-        
+
       </div>
     </MyProvider>
   );

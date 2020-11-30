@@ -38,7 +38,8 @@ function App(props) {
     const [getOverideTax, setGetOverideTax] = useState("");
 
 
-
+    const [errorState, setErrorState] = useState(null);
+    const [TaxOverrideValues, setTaxOverrideValues] = useState(null);
 
 
 
@@ -78,8 +79,7 @@ function App(props) {
 
 
         WooCommerce.getAsync('orders').then(function (result) {
-            setOrderByCustomer(JSON.parse(result.toJSON().body))
-            console.log(JSON.parse(result.toJSON().body))
+            setOrderByCustomer(JSON.parse(result.toJSON().body));
         });
 
         WooCommerce.getAsync('products').then(function (result) {
@@ -97,7 +97,6 @@ function App(props) {
 
         let getOverideTaxFn = async () => {
             const { data } = await axios.get(`https://capinfostaging.wpengine.com/wp-json/max_react_api/v2/get_tax_rates`);
-            console.log(data)
             setGetOverideTax(data)
             setPercentagePrice(data.percentages[0].priceamount);
             setCustomFixedValue(data.fix_rates[0].priceamount);
@@ -110,19 +109,15 @@ function App(props) {
     }, []);
 
     let updateOrder = (orderId, data) => {
-        console.log(orderId, data)
         WooCommerce.putAsync(`orders/${orderId}`, data).then(function (result) {
-            console.log(JSON.parse(result.toJSON().body))
         });
     }
     let createOrder = (data) => {
         WooCommerce.postAsync(`orders`, data).then(function (result) {
-            console.log(JSON.parse(result.toJSON().body))
         });
     }
     let createUserFn = (data) => {
         WooCommerce.postAsync(`customers`, data).then(function (result) {
-            console.log(JSON.parse(result.toJSON().body))
         });
 
     }
@@ -246,7 +241,6 @@ function App(props) {
         let customerId;
         await WooCommerce.getAsync(`orders/${orderId}`).then(function (result) {
             setCustomerById(JSON.parse(result.toJSON().body))
-            console.log(JSON.parse(result.toJSON().body))
             let obj = JSON.parse(result.toJSON().body)
             customerId = obj.customer_id
 
@@ -257,24 +251,28 @@ function App(props) {
             setautocompleValueInEditPage(JSON.parse(result.toJSON().body))
         });
 
-        console.log("CustomerById", customerById)
     }
 
 
     let changeShipping = async (a, b) => {
-        console.log(a, b)
         const { data } = await axios.get(`https://cors-anywhere.herokuapp.com/https://capinfostaging.wpengine.com/wp-json/max_react_api/v2/edit_bulk_shipping/${a}/${b}`);
-        console.log("data", data);
     }
 
     const sendTaxDataFn = async (selectType, percentagePrice, fixedChangeValue, customFixedValue, checkBoxValue, orderId) => {
         await axios.get(`https://capinfostaging.wpengine.com/wp-json/max_react_api/v2/update_tax_rates?custom_tax_enable=${checkBoxValue}&custom_price_option=${selectType}&custom_price=${percentagePrice}&order_id=${orderId}&custom_pricefixdropdown=${customFixedValue}&custom_price_fixed=${fixedChangeValue}`)
             .then((res) => {
-                console.log(res);
+                setErrorState({ response: 'success', message: 'order Received' });
+                setTaxOverrideValues({ selectType, percentagePrice, fixedChangeValue, customFixedValue, checkBoxValue, orderId });
             })
             .catch((err) => {
-                console.log(err);
+                setErrorState({ response: 'error', message: 'order error' });
             })
+    }
+
+    const filterOrderByStatusFn = (status) => {
+        WooCommerce.getAsync(`orders?status=${status}`).then(function (result) {
+            setOrderByCustomer(JSON.parse(result.toJSON(). body))
+        });
     }
 
 
@@ -297,7 +295,8 @@ function App(props) {
                 getOverideTax, setGetOverideTax,
                 percentagePrice, setPercentagePrice,
                 customFixedValue, setCustomFixedValue,
-
+                errorState, setErrorState,
+                TaxOverrideValues, setTaxOverrideValues,
 
                 searchOrder,
                 searchCustomer,
@@ -309,7 +308,8 @@ function App(props) {
                 createUserFn,
                 getOrderByIdFn,
                 changeShipping,
-                sendTaxDataFn
+                sendTaxDataFn,
+                filterOrderByStatusFn
 
             }}
         >

@@ -4,14 +4,15 @@ import React, {
   useContext,
   useState,
   useEffect,
-  
+
 } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import MyContext from "../contextApi/context";
 import Pagination from "react-js-pagination";
 // require("bootstrap/less/bootstrap.less");
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Filters from "./Filters";
 
 
 const OrdersData = () => {
@@ -33,6 +34,7 @@ const OrdersData = () => {
       {(context) => {
         return (
           <>
+            <Filters />
             <div className="container">
               <h2 className="pl-5 pt-3">Orders</h2>
               <form className="pl-4">
@@ -59,7 +61,7 @@ const OrdersData = () => {
 
                           if (params.inputProps.value !== searchValue || flag2) {
                             context.searchCustomer(params.inputProps.value);
-                            
+
                             setSearchValue(params.inputProps.value)
                             setFlag2(false)
                           }
@@ -84,7 +86,7 @@ const OrdersData = () => {
                       style={{ border: "2px solid ", }}
                       type="button"
                       class="btn btn-outline-primary "
- 
+
                       onClick={() => { context.searchOrder(customerKey) }}
                     >
                       <b >Apply</b>

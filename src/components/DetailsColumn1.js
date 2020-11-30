@@ -102,7 +102,6 @@ const OrderDetail1 = (props) => {
       {(context) => {
         return (
           <div>
-            {console.log(state)}
             <p
               style={{
                 fontSize: "14px",
@@ -126,7 +125,7 @@ const OrderDetail1 = (props) => {
               }}
               type="text"
               class="form-control"
-              value={moment(context.customerById.date_created).format('lll')} 
+              value={props.propsData.orderId?moment(context.customerById.date_created).format('lll'):moment(Date.now()).format('lll')} 
             />
 
             {/* Pyment drop-down */}

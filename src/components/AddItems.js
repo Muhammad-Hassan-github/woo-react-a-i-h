@@ -185,7 +185,6 @@ const AddItems = ({ addItems, taxLines }) => {
                       <tbody style={{ fontSize: "13px" }}>
                         {
                           context.placeOrderItem ? context.placeOrderItem.map((item, index) => {
-                            { console.log("hehhjjhy" + item) }
                             return <tr>
                               <td>
                                 <img
